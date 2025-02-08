@@ -1,0 +1,154 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+
+*@
+@model List<İngilizceKelimeler.Models.Entity.EnglishKelimeler>
+@{
+    var dogruKelime = ViewBag.DogruKelime;
+    var SonucD = ViewBag.SonucD;
+    var SonucY = ViewBag.SonucY;
+}
+
+<style>
+   
+    #container {
+        width: 50%;
+        margin: auto;
+        margin-top: 10%;
+        background-color: lightgray;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    #text {
+        font-size: 30px;
+        font-weight: bold;
+        margin: auto;
+    }
+
+    .form-control {
+        width: 100%;
+        margin: auto;
+    }
+
+    .result {
+        color:white;
+        background-color: royalblue;
+        width: 70%;
+        border: 2px solid black;
+        text-align: center;
+        text-decoration: none;
+        font-size: 19px;
+        font-weight: bold;
+        border-radius: 10px;
+        color: white;
+       margin-top:15px;
+    }
+
+        .result:hover {
+            background-color: royalblue;
+            color: black;
+            transition: all 0.5s;
+        }
+
+    .label1 {
+        color: dodgerblue;
+        background-color:black;
+        width:100%;
+        text-align:center;
+        align-content:center;
+
+
+    }
+
+    input[type="radio"] {
+      
+        border: none;
+       appearance:none;
+    }
+
+    .secenekler:has(input[type="radio"]:checked) {
+            background-color: dodgerblue;
+    }
+
+    .secenekler{
+        cursor:pointer;
+        width:70%;
+        border:none;
+        text-align:center;
+        padding:2px;
+        margin:2px;
+        font-size:20px;
+        font-weight:bold;
+        background-color:white;
+        border-radius: 10px;
+    }
+    .secenekler:hover{
+            background-color: dimgrey;
+            transition:all .2s;
+            color:white;
+    }
+
+    .formum{
+        width:100%;
+        text-align:center;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        margin-top:20px;
+    }
+</style>
+
+
+<div id="container">
+    @if (dogruKelime != null)
+    {
+        <label id="text" class="form-label label1">@dogruKelime.Kelimeİng</label>
+        
+
+        <form method="post" action="/KelimeTest/Index" class="formum">
+            @foreach (var kelime in Model)
+            {
+
+                <div class="secenekler"  onclick="document.getElementById('@kelime.KelimeId').checked=true;">
+                    <input type="hidden" name="DogruKelime" value="@dogruKelime.KelimeId"/>
+                    <input id="@kelime.KelimeId" type="radio" name="Secilen" value="@kelime.KelimeId" />
+                    <label for="@kelime.KelimeId">@kelime.KelimeTur</label>
+                    
+                </div>
+            }
+            <button type="submit" class="result">Kontrol Et</button>
+        </form>
+
+    }
+
+    <div class="mt-3">
+        @if (SonucD != null)
+        {
+            <label style="font-size:40px; padding:10px;background-color:greenyellow">@SonucD</label>
+            <script>
+
+                   setTimeout(function () {
+                 window.location.href = "/KelimeTest/Index";
+                }, 2000);</script>
+        }
+        else if (SonucY != null)
+        {
+            <label style="font-size:40px;padding:10px; background-color:red">@SonucY</label>
+            <label style="font-size:50px;padding:10px;background-color:greenyellow">Doğrusu:@ViewBag.Dogrusu </label>
+
+            <script>
+
+                   setTimeout(function () {
+                   window.location.href = "/KelimeTest/Index";
+                }, 4000);</script>
+        }
+
+    </div>
+</div>

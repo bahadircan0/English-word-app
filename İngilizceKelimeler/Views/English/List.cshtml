@@ -1,0 +1,95 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<İngilizceKelimeler.Models.Entity.EnglishKelimeler>
+
+<style>
+    .arama {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+        .arama input {
+            width: 50%;
+            height: 30px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            padding: 5px;
+        }
+
+        .arama a {
+            background-color: #2D336B;
+            color: white;
+            padding: 7px;
+            border-radius: 5px;
+            margin-left: 5px;
+            border: none
+        }
+        .arama button{
+            background-color: #2D336B;
+            border:none;
+            padding: 7px;
+        }
+
+    .add {
+        margin-right: auto;
+    }
+
+    .search {
+        margin-right: 10px;
+        
+    }
+    .ada{
+        text-align:center;
+    }
+</style>
+
+
+
+
+<form method="post" asp-action="Search" asp-controller="English" class="arama">
+    <a class="btn btn-primary add" asp-action="Create" asp-controller="English">Yeni Kelime Ekle</a>
+    <input class="search" name="aranan" placeholder="search" />
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<table class="table ">
+    <thead>
+        <tr class="ada">
+            <th>İngilizcesi</th>
+            <th>Türkçesi</th>
+            <th>Görünme</th>
+            <th>Bilme Sayısı</th>
+            <th>Bilememe Sayısı</th>
+            <th>Button</th>
+            <th><h5>Adet:@ViewBag.Sayi</h5></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ing in Model)
+        {
+            <tr class="ada">
+                <td>@ing.Kelimeİng</td>
+                <td>@ing.KelimeTur</td>
+                <td>@ing.KelimeVisible</td>
+                <td>@ing.KelimeBilmeSayisi</td>
+                <td>@ing.KelimeBilememeSayisi</td>
+                <td>
+                    <form method="post">
+                        <input type="hidden" value="@ing.KelimeId" name="id" />
+                        <button class="btn btn-info" name="sil" type="submit">Görünmez Yap</button>
+                    </form>
+                </td>
+                <td>
+                    <a class="btn btn-primary" href="@Url.Action("Edit", "English", new { id = ing.KelimeId })">Düzenle</a>
+
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
